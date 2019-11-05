@@ -1,0 +1,14 @@
+version: '2.1'
+
+services:
+  frontend_api:
+    container_name: frontend_api
+    build: .
+    environment:
+      - ENVIRONMENT=production
+    networks:
+      - gopamoja
+
+networks:
+  gopamoja:
+    external: true
