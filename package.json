@@ -6,15 +6,20 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "connect-pg-simple": "^6.0.1",
     "cookie-parser": "~1.4.4",
     "cors": "^2.8.5",
     "debug": "~2.6.9",
     "ejs": "~2.6.1",
     "express": "~4.16.1",
     "express-promise-router": "^3.0.3",
+    "express-session": "^1.17.0",
     "http-errors": "~1.6.3",
+    "moment": "^2.24.0",
     "morgan": "~1.9.1",
     "pg": "^7.12.1",
-    "pg-format": "^1.0.4"
+    "pg-cursor": "^2.0.1",
+    "pg-format": "^1.0.4",
+    "request": "^2.88.0"
   }
 }

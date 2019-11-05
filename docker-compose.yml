@@ -5,7 +5,7 @@ services:
     container_name: frontend_api
     build: .
     environment:
-      - ENVIRONMENT=production
+      - ENVIRONMENT=${ENVIRONMENT}
     networks:
       - gopamoja
 
