@@ -41,6 +41,7 @@ const LoggingService = {
     } catch(e) {
       console.log(e);
       await client.query('ROLLBACK')
+      throw e
     } finally {
       client.release()
     }

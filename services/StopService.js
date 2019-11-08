@@ -32,7 +32,7 @@ const RouteService = {
     } catch(e) {
       console.log(e);
       await client.query('ROLLBACK')
-      res.status(500).json({e: e.toString()});
+      throw e
     } finally {
       client.release()
     }

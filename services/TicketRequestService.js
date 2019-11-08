@@ -89,9 +89,9 @@ const TicketRequestService = {
 
       let serviceCharge = TransactionService.calculateServiceCharge(segment.price);
 
-      let q1 = "INSERT INTO ticket_requests(first_name, last_name, phone, segment_id, promo, reference_number, amount) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *;";
+      let q1 = "INSERT INTO ticket_requests(first_name, last_name, phone, segment_id, promo, reference_number, amount, date) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *;";
 
-      result = await client.query(q1, [firstName, lastName, phone, segmentId, promo, referenceNumber, segment.price + serviceCharge]);
+      result = await client.query(q1, [firstName, lastName, phone, segmentId, promo, referenceNumber, segment.price + serviceCharge, date]);
 
       if(result == null || result.rows == null) {
         throw "Ticket request insert did not return any result";

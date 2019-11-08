@@ -1,9 +1,11 @@
 const pg = require('../config/pg');
 const Router = require('express-promise-router');
 const router = new Router()
+const path = require('path');
 let moment = require('moment');
 
 const StopService = require('../services/StopService');
+const ImageService = require('../services/ImageService');
 const SegmentService = require('../services/SegmentService');
 const LoggingService = require('../services/LoggingService');
 const TicketRequestService = require('../services/TicketRequestService');
@@ -157,6 +159,36 @@ router.post('/custom_search_request', async function(req, res, next) {
     res.json({
       custom_search: customSearch
     });
+  } catch(e) {
+    res.status(500).json({err: e.toString()});
+  }
+});
+
+router.get('/images/:filename', async function(req, res, next) {
+  let filename = req.params.filename;
+
+  if(typeof filename !== 'string') {
+    res.json({err: 'Filename id not valid'});
+    return
+  }
+
+  res.sendFile(path.join(__dirname, '../public/images/' + filename));
+});
+
+router.get('/images', async function(req, res, next) {
+  let companyId = parseInt(req.query.company_id);
+
+  if(isNaN(companyId)) {
+    res.json({err: 'Company id not valid'});
+    return
+  }
+
+  try {
+    const images = await ImageService.findByCompanyId(companyId);
+
+    res.json({
+      images: images
+    })
   } catch(e) {
     res.status(500).json({err: e.toString()});
   }

@@ -90,7 +90,7 @@ const CustomSearchService = {
     } catch(e) {
       console.log(e);
       await client.query('ROLLBACK')
-      res.render('error', { message : e.toString()});
+      throw e
     } finally {
       client.release()
     }

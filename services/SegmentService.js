@@ -7,7 +7,7 @@ const env = require('../env.js');
 
 const HttpService = require('../services/HttpService');
 
-const RouteService = {
+const SegmentService = {
   findByOriginIdAndDestinationIdAndDate: async (originId, destinationId, date) => {
     if(isNaN(originId)) {
       throw "Origin id invalid"
@@ -57,15 +57,35 @@ const RouteService = {
 
       let q2;
       if(isToday) {
-        q2 = "SELECT * \
-        from segments \
-        left join routes on routes.id = segments.route_id \
-        left join companies on routes.company_id = companies.id \
+        q2 = "SELECT \
+        ROW_NUMBER() OVER (ORDER BY departure_day, departure_hour, departure_minute) AS id, \
+        segments.id as segment_id, \
+        segments.price as price, \
+        segments.origin_id as origin_id, \
+        segments.destination_id as destination_id, \
+        segments.departure_day as departure_day, \
+        segments.departure_hour as departure_hour, \
+        segments.departure_minute as departure_minute, \
+        segments.route_id as route_id, \
+        companies.id as company_id, \
+        companies.name as company_name, \
+        trips.days_of_the_week as days_of_the_week, \
+        vehicles.rows * vehicles.columns as capacity, \
+        vehicles.wifi as wifi, \
+        vehicles.ac as ac \
+        from routes \
         left join trips on trips.route_id = routes.id \
+        left join vehicles on vehicles.id = trips.vehicle_id \
+        left join segments on segments.route_id = routes.id \
+        left join companies on routes.company_id = companies.id \
         where segments.origin_id = $1 \
-        and segments.destination_id = $2 and $3 = ANY (days_of_the_week::int[])"
+        and segments.destination_id = $2 \
+        and segments.hidden = $3 \
+        and segments.departure_hour > $4 \
+        and segments.departure_minute > $5 \
+        and $6 = ANY (days_of_the_week::int[])"
 
-        result = await client.query(q2, [originId, destinationId, dayOfTheWeek]);
+        result = await client.query(q2, [originId, destinationId, false, now.hours(), now.minutes(), dayOfTheWeek]);
       } else {
         q2 = "SELECT \
         ROW_NUMBER() OVER (ORDER BY departure_day, departure_hour, departure_minute) AS id, \
@@ -79,9 +99,13 @@ const RouteService = {
         segments.route_id as route_id, \
         companies.id as company_id, \
         companies.name as company_name, \
-        trips.days_of_the_week as days_of_the_week \
+        trips.days_of_the_week as days_of_the_week, \
+        vehicles.rows * vehicles.columns as capacity, \
+        vehicles.wifi as wifi, \
+        vehicles.ac as ac \
         from routes \
         left join trips on trips.route_id = routes.id \
+        left join vehicles on vehicles.id = trips.vehicle_id \
         left join segments on segments.route_id = routes.id \
         left join companies on routes.company_id = companies.id \
         where segments.origin_id = $1 \
@@ -97,9 +121,43 @@ const RouteService = {
       }
 
       let segments = result.rows;
+      let bookings;
+
+      if(segments != null && segments.length > 0) {
+        let valueArray = segments.map((x) => {return x.segment_id});
+        valueArray.unshift(date);
+
+        let paramArray = [];
+        for(var i = 2; i < segments.length + 2; i++) {
+          paramArray.push('$' + i);
+        }
+
+        let q3 = "SELECT segment_id, date(date), count(*) as count FROM bookings where date(date) = $1 and segment_id in (" + paramArray.join(',') + ") group by segment_id, date(date)";
+
+        result = await client.query(q3, valueArray);
+
+        if(result == null || result.rows == null) {
+          throw "Bookings get did not return any result";
+        }
+
+        bookings = result.rows;
+      }
 
       var t;
       for(let s of segments) {
+        if(bookings != null) {
+          for(let b of bookings) {
+            if(b.segment_id === s.segment_id) {
+              s['available_seats'] = s.capacity - b.count;
+            }
+          }
+        }
+
+        if(s['available_seats'] == null) {
+          s['available_seats'] = s.capacity;
+        }
+
+        //fix date formatting
         t = moment(date);
         t.set({hour:s.departure_hour,minute:s.departure_minute,second:0,millisecond:0})
         s['formatted_departure'] = t.format("HH:mm");
@@ -143,4 +201,4 @@ const RouteService = {
   }
 }
 
-module.exports = RouteService;
+module.exports = SegmentService;
