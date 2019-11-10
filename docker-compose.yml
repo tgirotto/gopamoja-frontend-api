@@ -1,8 +1,8 @@
 version: '2.1'
 
 services:
-  frontend_api:
-    container_name: frontend_api
+  messi:
+    container_name: messi
     build: .
     environment:
       - ENVIRONMENT=${ENVIRONMENT}
