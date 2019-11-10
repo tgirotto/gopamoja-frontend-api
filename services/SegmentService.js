@@ -83,9 +83,10 @@ const SegmentService = {
         and segments.hidden = $3 \
         and segments.departure_hour > $4 \
         and segments.departure_minute > $5 \
-        and $6 = ANY (days_of_the_week::int[])"
+        and $6 = ANY (days_of_the_week::int[]) \
+        and routes.hidden = $7"
 
-        result = await client.query(q2, [originId, destinationId, false, now.hours(), now.minutes(), dayOfTheWeek]);
+        result = await client.query(q2, [originId, destinationId, false, now.hours(), now.minutes(), dayOfTheWeek, false]);
       } else {
         q2 = "SELECT \
         ROW_NUMBER() OVER (ORDER BY departure_day, departure_hour, departure_minute) AS id, \
@@ -111,9 +112,10 @@ const SegmentService = {
         where segments.origin_id = $1 \
         and segments.destination_id = $2 \
         and segments.hidden = $3 \
-        and $4 = ANY (days_of_the_week::int[])"
+        and $4 = ANY (days_of_the_week::int[]) \
+        and routes.hidden = $5"
 
-        result = await client.query(q2, [originId, destinationId, false, dayOfTheWeek]);
+        result = await client.query(q2, [originId, destinationId, false, dayOfTheWeek, false]);
       }
 
       if(result == null || result.rows == null) {
@@ -175,7 +177,11 @@ const SegmentService = {
           From: ${origin.name}\n\
           To: " ${destination.name}`;
 
-          result = await HttpService.post(env.bot.host + '/send_message', {message: message});
+          try {
+            await HttpService.post(env.bot.host + '/send_message', {message: message});
+          } catch(e) {
+            console.log(e);
+          }
       };
 
       await client.query('COMMIT')

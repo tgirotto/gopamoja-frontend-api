@@ -128,7 +128,11 @@ const TicketRequestService = {
           Price: ${segment.price}\n\
           Service charge: ${serviceCharge}`;
 
-      result = await HttpService.post(env.bot.host + '/send_message', {message: message});
+      try {
+        await HttpService.post(env.bot.host + '/send_message', {message: message});
+      } catch(e) {
+        console.log(e);
+      }
 
       await client.query('COMMIT')
 
