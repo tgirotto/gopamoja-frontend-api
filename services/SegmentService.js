@@ -185,7 +185,6 @@ const SegmentService = {
           Departure date: ${date}\n\
           From: ${origin.name}\n\
           To: " ${destination.name}`;
-          console.log(message);
 
           try {
             await HttpService.post(env.bot.host + '/send_message', {message: message});
