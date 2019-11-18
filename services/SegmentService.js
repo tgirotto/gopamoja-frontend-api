@@ -52,11 +52,15 @@ const SegmentService = {
       let destination = result.rows[0];
 
       let now = moment();
+      const hasPassed = moment(date).isBefore(now);
       const isToday = moment(date).isSame(now, "day");
       const dayOfTheWeek = moment(date).day();
 
-      let q2;
-      if(isToday) {
+      let q2, segments = [];
+
+      if(hasPassed) {
+        segments = [];
+      } else if(isToday) {
         q2 = "SELECT \
         ROW_NUMBER() OVER (ORDER BY departure_day, departure_hour, departure_minute) AS id, \
         segments.id as segment_id, \
@@ -87,6 +91,11 @@ const SegmentService = {
         and routes.hidden = $7"
 
         result = await client.query(q2, [originId, destinationId, false, now.hours(), now.minutes(), dayOfTheWeek, false]);
+        if(result == null || result.rows == null) {
+          throw "Segments get did not return any result";
+        }
+
+        segments = result.rows;
       } else {
         q2 = "SELECT \
         ROW_NUMBER() OVER (ORDER BY departure_day, departure_hour, departure_minute) AS id, \
@@ -116,13 +125,13 @@ const SegmentService = {
         and routes.hidden = $5"
 
         result = await client.query(q2, [originId, destinationId, false, dayOfTheWeek, false]);
+        if(result == null || result.rows == null) {
+          throw "Segments get did not return any result";
+        }
+
+        segments = result.rows;
       }
 
-      if(result == null || result.rows == null) {
-        throw "Segments get did not return any result";
-      }
-
-      let segments = result.rows;
       let bookings;
 
       if(segments != null && segments.length > 0) {
