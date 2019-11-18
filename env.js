@@ -3,7 +3,7 @@ var ENVIRONMENT = {
     pg: {
       user: 'gopamoja-app',
       host: 'gopamoja-db-1-do-user-6613101-0.db.ondigitalocean.com',
-      database: 'gopamoja-pool',
+      database: 'gopamoja-production',
       password: 'muyuaq0b3zjekgqg',
       port: 25061,
       ssl: require
