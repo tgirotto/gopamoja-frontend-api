@@ -40,4 +40,4 @@ var ENVIRONMENT = {
   }
 };
 
-module.exports = ENVIRONMENT[process.env.ENVIRONMENT || 'staging']
+module.exports = ENVIRONMENT[process.env.ENVIRONMENT || 'development']
