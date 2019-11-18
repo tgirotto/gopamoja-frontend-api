@@ -188,7 +188,7 @@ const SegmentService = {
           console.log(message);
 
           try {
-            // await HttpService.post(env.bot.host + '/send_message', {message: message});
+            await HttpService.post(env.bot.host + '/send_message', {message: message});
           } catch(e) {
             console.log(e);
           }
