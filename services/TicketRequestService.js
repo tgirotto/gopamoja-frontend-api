@@ -109,7 +109,7 @@ const TicketRequestService = {
       segment['formatted_departure_date'] = t.format("MMM DD YYYY")
 
       t = moment(date);
-      t.set({hour:segment.departure_hour,minute:segment.departure_minute,second:0,millisecond:0})
+      t.set({hour:segment.arrival_hour,minute:segment.arrival_minute,second:0,millisecond:0})
       segment['formatted_arrival'] = t.format("hh:mm A");
       segment['formatted_arrival_date'] = t.format("MMM DD YYYY")
 
