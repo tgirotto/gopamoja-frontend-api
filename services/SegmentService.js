@@ -88,9 +88,10 @@ const SegmentService = {
         and segments.departure_hour > $4 \
         and segments.departure_minute > $5 \
         and $6 = ANY (days_of_the_week::int[]) \
-        and routes.hidden = $7"
+        and routes.hidden = $7 \
+        and trips.hidden = $8"
 
-        result = await client.query(q2, [originId, destinationId, false, now.hours(), now.minutes(), dayOfTheWeek, false]);
+        result = await client.query(q2, [originId, destinationId, false, now.hours(), now.minutes(), dayOfTheWeek, false, false]);
         if(result == null || result.rows == null) {
           throw "Segments get did not return any result";
         }
@@ -122,9 +123,10 @@ const SegmentService = {
         and segments.destination_id = $2 \
         and segments.hidden = $3 \
         and $4 = ANY (days_of_the_week::int[]) \
-        and routes.hidden = $5"
+        and routes.hidden = $5 \
+        and trips.hidden = $6"
 
-        result = await client.query(q2, [originId, destinationId, false, dayOfTheWeek, false]);
+        result = await client.query(q2, [originId, destinationId, false, dayOfTheWeek, false, false]);
         if(result == null || result.rows == null) {
           throw "Segments get did not return any result";
         }
