@@ -45,6 +45,9 @@ const TicketRequestService = {
         segments.departure_day as departure_day, \
         segments.departure_hour as departure_hour, \
         segments.departure_minute as departure_minute, \
+        segments.arrival_day as arrival_day, \
+        segments.arrival_hour as arrival_hour, \
+        segments.arrival_minute as arrival_minute, \
         segments.route_id as route_id, \
         companies.id as company_id, \
         companies.name as company_name, \
@@ -112,7 +115,6 @@ const TicketRequestService = {
       t.set({hour:segment.arrival_hour,minute:segment.arrival_minute,second:0,millisecond:0})
       segment['formatted_arrival'] = t.format("hh:mm A");
       segment['formatted_arrival_date'] = t.format("MMM DD YYYY");
-      console.log(segment);
 
       var message = `New ticket request!\n\
           Request id: ${ticketRequest.id}\n\
