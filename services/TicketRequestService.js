@@ -108,10 +108,11 @@ const TicketRequestService = {
       segment['formatted_departure'] = t.format("hh:mm A");
       segment['formatted_departure_date'] = t.format("MMM DD YYYY")
 
-      t = moment(date);
+      t = moment(date).add(segment.arrival_day, 'days');
       t.set({hour:segment.arrival_hour,minute:segment.arrival_minute,second:0,millisecond:0})
       segment['formatted_arrival'] = t.format("hh:mm A");
-      segment['formatted_arrival_date'] = t.format("MMM DD YYYY")
+      segment['formatted_arrival_date'] = t.format("MMM DD YYYY");
+      console.log(segment);
 
       var message = `New ticket request!\n\
           Request id: ${ticketRequest.id}\n\
@@ -119,8 +120,9 @@ const TicketRequestService = {
           Last name: ${lastName}\n\
           Phone: ${phone}\n\
           Company: ${segment.company_name}\n\
-          Date: ${segment.formatted_departure_date}\n\
+          Departure date: ${segment.formatted_departure_date}\n\
           Departure time: ${segment.formatted_departure}\n\
+          Arrival date: ${segment.formatted_arrival_date}\n\
           Arrival time: ${segment.formatted_arrival}\n\
           Origin: ${segment.origin_name}\n\
           Destination: ${segment.destination_name}\n\
