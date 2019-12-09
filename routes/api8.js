@@ -127,7 +127,7 @@ router.post('/ticket_request', async function(req, res, next) {
     const result = await TicketRequestService.insertOne(segmentId, momentDate, firstName, lastName, phone, promo);
     res.json(result);
   } catch(e) {
-    console.log(date);
+    console.log(e);
     res.status(500).json({err: e.toString()});
   }
 });
