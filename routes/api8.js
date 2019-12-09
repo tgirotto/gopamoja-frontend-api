@@ -74,7 +74,6 @@ router.get('/journeys', async function(req, res, next) {
   try {
     const d = moment(date);
     const result = await SegmentService.findByOriginIdAndDestinationIdAndDate(originId, destinationId, date);
-    console.log(result)
     res.json(result)
 
     LoggingService.logJourneyRequest(originId, destinationId, date, latitude, longitude);
@@ -122,7 +121,6 @@ router.post('/ticket_request', async function(req, res, next) {
   }
 
   try {
-    console.log(date);
     let momentDate = moment.utc(date);
     const result = await TicketRequestService.insertOne(segmentId, momentDate, firstName, lastName, phone, promo);
     res.json(result);
