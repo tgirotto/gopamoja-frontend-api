@@ -122,6 +122,7 @@ router.post('/ticket_request', async function(req, res, next) {
   }
 
   try {
+    console.log(date);
     let momentDate = moment(date).tz("Africa/Nairobi");
     const result = await TicketRequestService.insertOne(segmentId, date, firstName, lastName, phone, promo);
     res.json(result);
