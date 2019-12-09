@@ -51,12 +51,12 @@ const SegmentService = {
 
       let destination = result.rows[0];
 
-      let now = moment().tz("Africa/Nairobi");
-      console.log(moment(date).tz("Africa/Nairobi"));
+      let nowWithZone = moment().tz("Africa/Nairobi");
+      let dateWithZone = moment(date).tz("Africa/Nairobi");
       console.log(now);
-      const hasPassed = moment(date).isBefore(now);
-      const isToday = moment(date).isSame(now, "day");
-      const dayOfTheWeek = moment(date).day();
+      const hasPassed = moment(dateWithZone).isBefore(nowWithZone);
+      const isToday = moment(dateWithZone).isSame(nowWithZone, "day");
+      const dayOfTheWeek = moment(dateWithZone).day();
 
       let q2, segments = [];
 
@@ -94,7 +94,7 @@ const SegmentService = {
         and routes.hidden = $7 \
         and trips.hidden = $8"
 
-        result = await client.query(q2, [originId, destinationId, false, now.hours(), now.minutes(), dayOfTheWeek, false, false]);
+        result = await client.query(q2, [originId, destinationId, false, nowWithZone.hours(), nowWithZone.minutes(), dayOfTheWeek, false, false]);
         if(result == null || result.rows == null) {
           throw "Segments get did not return any result";
         }
@@ -175,15 +175,15 @@ const SegmentService = {
         }
 
         //fix date formatting
-        t = moment(date);
+        t = moment(dateWithZone);
         t.set({hour:s.departure_hour,minute:s.departure_minute,second:0,millisecond:0})
         s['formatted_departure'] = t.format("HH:mm");
 
-        t = moment(date);
+        t = moment(dateWithZone);
         t.set({hour:s.departure_hour,minute:s.departure_minute,second:0,millisecond:0})
         s['formatted_arrival'] = t.format("HH:mm");
 
-        s['date'] = moment(date).set({hour:0,minute:0,second:0,millisecond:0}).toDate()
+        s['date'] = moment(dateWithZone).set({hour:0,minute:0,second:0,millisecond:0}).toDate()
       }
 
       if(segments.length < 1) {
