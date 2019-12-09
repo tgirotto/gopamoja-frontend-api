@@ -30,6 +30,10 @@ const TicketRequestService = {
       throw 'Promo invalid'
     }
 
+    if(moment.isMoment(date)) {
+      throw 'date is not a moment'
+    }
+
     const client = await pg.connect()
     let result;
 
