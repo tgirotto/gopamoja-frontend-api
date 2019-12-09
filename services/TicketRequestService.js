@@ -2,7 +2,7 @@ const pg = require('../config/pg');
 const Cursor = require('pg-cursor');
 const { promisify } = require("util");
 const format = require('pg-format');
-const moment = require('moment');
+const moment = require('moment-timezone');
 const env = require('../env.js');
 
 const HttpService = require('../services/HttpService');
@@ -110,12 +110,12 @@ const TicketRequestService = {
 
       let ticketRequest = result.rows[0];
 
-      let t = moment(date);
+      let t = moment(date).tz("Africa/Nairobi");
       t.set({hour:segment.departure_hour,minute:segment.departure_minute,second:0,millisecond:0})
       segment['formatted_departure'] = t.format("hh:mm A");
       segment['formatted_departure_date'] = t.format("MMM DD YYYY")
 
-      t = moment(date).add(segment.arrival_day, 'days');
+      t = moment(date).tz("Africa/Nairobi").add(segment.arrival_day, 'days');
       t.set({hour:segment.arrival_hour,minute:segment.arrival_minute,second:0,millisecond:0})
       segment['formatted_arrival'] = t.format("hh:mm A");
       segment['formatted_arrival_date'] = t.format("MMM DD YYYY");
