@@ -51,8 +51,6 @@ const SegmentService = {
 
       let destination = result.rows[0];
 
-      console.log(moment(date))
-      console.log(moment(date).tz("Africa/Nairobi"));
       let nowWithZone = moment().tz("Africa/Nairobi");
       let dateWithZone = moment(date).tz("Africa/Nairobi");
       const hasPassed = moment(dateWithZone).isBefore(nowWithZone);
@@ -64,7 +62,6 @@ const SegmentService = {
       if(hasPassed) {
         segments = [];
       } else if(isToday) {
-        console.log('istoday');
         q2 = "SELECT \
         ROW_NUMBER() OVER (ORDER BY departure_day, departure_hour, departure_minute) AS id, \
         segments.id as segment_id, \
