@@ -184,7 +184,7 @@ const SegmentService = {
         t.set({hour:s.arrival_hour,minute:s.arrival_minute,second:0,millisecond:0})
         s['formatted_arrival'] = t.format("HH:mm");
 
-        s['date'] = moment(date).set({hour:0,minute:0,second:0,millisecond:0}).toDate()
+        s['date'] = moment(date).tz("Africa/Nairobi").set({hour:0,minute:0,second:0,millisecond:0}).toISOString()
       }
 
       if(segments.length < 1) {
