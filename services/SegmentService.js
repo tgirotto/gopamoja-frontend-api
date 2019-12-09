@@ -53,6 +53,8 @@ const SegmentService = {
 
       let now = moment.utc();
       console.log(now);
+      console.log(moment(date));
+      console.log(moment(date).isSame(now, "day"));
       const hasPassed = moment(date).isBefore(now);
       const isToday = moment(date).isSame(now, "day");
       const dayOfTheWeek = moment(date).day();
