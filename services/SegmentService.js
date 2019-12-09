@@ -174,15 +174,15 @@ const SegmentService = {
         }
 
         //fix date formatting
-        t = moment(dateWithZone);
+        t = moment(date).tz("Africa/Nairobi");
         t.set({hour:s.departure_hour,minute:s.departure_minute,second:0,millisecond:0})
         s['formatted_departure'] = t.format("HH:mm");
 
-        t = moment(dateWithZone);
+        t = moment(date).tz("Africa/Nairobi");
         t.set({hour:s.departure_hour,minute:s.departure_minute,second:0,millisecond:0})
         s['formatted_arrival'] = t.format("HH:mm");
 
-        s['date'] = moment(dateWithZone).set({hour:0,minute:0,second:0,millisecond:0}).toDate()
+        s['date'] = moment(date).tz("Africa/Nairobi").set({hour:0,minute:0,second:0,millisecond:0}).toDate()
       }
 
       if(segments.length < 1) {
@@ -205,9 +205,9 @@ const SegmentService = {
           journeys: segments,
           origin_name: origin.name,
           destination_name: destination.name,
-          date: moment(date).format("DD MMM"),
-          previous_day: moment(date).set({hour:0,minute:0,second:0,millisecond:0}).subtract(1, "days").toISOString(),
-          next_day: moment(date).set({hour:0,minute:0,second:0,millisecond:0}).add(1, "days").toISOString()
+          date: moment(date).tz("Africa/Nairobi").format("DD MMM"),
+          previous_day: moment(date).tz("Africa/Nairobi").set({hour:0,minute:0,second:0,millisecond:0}).subtract(1, "days").toISOString(),
+          next_day: moment(date).tz("Africa/Nairobi").set({hour:0,minute:0,second:0,millisecond:0}).add(1, "days").toISOString()
         });
       });
     } catch(e) {
