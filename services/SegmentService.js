@@ -51,7 +51,7 @@ const SegmentService = {
 
       let destination = result.rows[0];
 
-      let now = moment("Africa/Nairobi").startOf('day');
+      let now = moment.tz("Africa/Nairobi").startOf('day');
       console.log(now);
       console.log(moment(date));
       console.log(moment(date).isSame(now, "day"));
