@@ -74,6 +74,7 @@ router.get('/journeys', async function(req, res, next) {
   try {
     const d = moment(date);
     const result = await SegmentService.findByOriginIdAndDestinationIdAndDate(originId, destinationId, date);
+    console.log(result)
     res.json(result)
 
     LoggingService.logJourneyRequest(originId, destinationId, date, latitude, longitude);
