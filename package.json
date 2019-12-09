@@ -21,5 +21,14 @@
     "pg-cursor": "^2.0.1",
     "pg-format": "^1.0.4",
     "request": "^2.88.0"
+  },
+  "nodemonConfig": {
+    "restartable": "rs",
+      "ignore": [
+      "node_modules/**/node_modules"
+      ],
+    "env": {
+      "ENVIRONMENT": "development"
+    }
   }
 }
