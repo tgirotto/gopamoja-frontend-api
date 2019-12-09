@@ -55,7 +55,7 @@ const SegmentService = {
       console.log(moment.utc(date));
       console.log(now);
       const hasPassed = moment(date).isBefore(now);
-      const isToday = moment(date).isSame(now, "day");
+      const isToday = moment.utc(date).isSame(now, "day");
       const dayOfTheWeek = moment(date).day();
 
       let q2, segments = [];
