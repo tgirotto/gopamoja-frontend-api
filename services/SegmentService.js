@@ -2,7 +2,7 @@ const pg = require('../config/pg');
 const Cursor = require('pg-cursor');
 const { promisify } = require("util");
 const format = require('pg-format');
-const moment = require('moment');
+const moment = require('moment-timezone');
 const env = require('../env.js');
 
 const HttpService = require('../services/HttpService');
@@ -51,7 +51,7 @@ const SegmentService = {
 
       let destination = result.rows[0];
 
-      let now = moment().startOf('day');
+      let now = moment("Africa/Nairobi").startOf('day');
       console.log(now);
       console.log(moment(date));
       console.log(moment(date).isSame(now, "day"));
