@@ -53,7 +53,6 @@ const SegmentService = {
 
       let nowWithZone = moment().tz("Africa/Nairobi");
       let dateWithZone = moment(date).tz("Africa/Nairobi");
-      console.log(now);
       const hasPassed = moment(dateWithZone).isBefore(nowWithZone);
       const isToday = moment(dateWithZone).isSame(nowWithZone, "day");
       const dayOfTheWeek = moment(dateWithZone).day();
