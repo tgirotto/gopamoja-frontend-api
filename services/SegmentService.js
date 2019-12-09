@@ -51,10 +51,10 @@ const SegmentService = {
 
       let destination = result.rows[0];
 
-      let now = moment.tz("Africa/Nairobi").startOf('day');
+      let now = moment.tz("Africa/Nairobi");
       console.log(now);
-      console.log(moment(date));
-      console.log(moment(date).isSame(now, "day"));
+      // console.log(now.hours());
+      // console.log(now.minutes());
       const hasPassed = moment(date).isBefore(now);
       const isToday = moment(date).isSame(now, "day");
       const dayOfTheWeek = moment(date).day();
