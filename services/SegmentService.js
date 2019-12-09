@@ -51,6 +51,8 @@ const SegmentService = {
 
       let destination = result.rows[0];
 
+      console.log(moment(date))
+      console.log(moment(date).tz("Africa/Nairobi"));
       let nowWithZone = moment().tz("Africa/Nairobi");
       let dateWithZone = moment(date).tz("Africa/Nairobi");
       const hasPassed = moment(dateWithZone).isBefore(nowWithZone);
@@ -179,7 +181,7 @@ const SegmentService = {
         s['formatted_departure'] = t.format("HH:mm");
 
         t = moment(date).tz("Africa/Nairobi");
-        t.set({hour:s.departure_hour,minute:s.departure_minute,second:0,millisecond:0})
+        t.set({hour:s.arrival_hour,minute:s.arrival_minute,second:0,millisecond:0})
         s['formatted_arrival'] = t.format("HH:mm");
 
         s['date'] = moment(date).set({hour:0,minute:0,second:0,millisecond:0}).toDate()
