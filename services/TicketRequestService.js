@@ -30,7 +30,7 @@ const TicketRequestService = {
       throw 'Promo invalid'
     }
 
-    if(moment.isMoment(date)) {
+    if(!moment.isMoment(date)) {
       throw 'date is not a moment'
     }
 
