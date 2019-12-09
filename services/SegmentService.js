@@ -63,6 +63,7 @@ const SegmentService = {
       if(hasPassed) {
         segments = [];
       } else if(isToday) {
+        console.log('istoday');
         q2 = "SELECT \
         ROW_NUMBER() OVER (ORDER BY departure_day, departure_hour, departure_minute) AS id, \
         segments.id as segment_id, \
@@ -100,6 +101,7 @@ const SegmentService = {
 
         segments = result.rows;
       } else {
+        console.log('is not today');
         q2 = "SELECT \
         ROW_NUMBER() OVER (ORDER BY departure_day, departure_hour, departure_minute) AS id, \
         segments.id as segment_id, \
