@@ -59,8 +59,8 @@ const SegmentService = {
 
       let q2, segments = [];
 
-      console.log('has passed');
       if(hasPassed) {
+        console.log('has passed');
         segments = [];
       } else if(isToday) {
         q2 = "SELECT \
