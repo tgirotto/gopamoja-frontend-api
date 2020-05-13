@@ -1,11 +1,11 @@
 var ENVIRONMENT = {
   production: {
     pg: {
-      user: 'gopamoja-app',
-      host: 'gopamoja-db-1-do-user-6613101-0.db.ondigitalocean.com',
-      database: 'gopamoja-production',
-      password: 'muyuaq0b3zjekgqg',
-      port: 25061,
+      user: '',
+      host: '',
+      database: '',
+      password: '',
+      port: ,
       ssl: require
     },
     bot: {
@@ -14,11 +14,11 @@ var ENVIRONMENT = {
   },
   development: {
     pg: {
-      user: 'gopamoja-app',
-      host: 'gopamoja-db-1-do-user-6613101-0.db.ondigitalocean.com',
-      database: 'gopamoja-dev',
-      password: 'muyuaq0b3zjekgqg',
-      port: 25061,
+      user: '',
+      host: '',
+      database: '',
+      password: '',
+      port: ,
       ssl: require
     },
     bot: {
@@ -27,11 +27,11 @@ var ENVIRONMENT = {
   },
   staging: {
     pg: {
-      user: 'gopamoja-app',
-      host: 'gopamoja-db-1-do-user-6613101-0.db.ondigitalocean.com',
-      database: 'gopamoja-staging',
-      password: 'muyuaq0b3zjekgqg',
-      port: 25061,
+      user: '',
+      host: '',
+      database: '',
+      password: '',
+      port: ,
       ssl: require
     },
     bot: {
