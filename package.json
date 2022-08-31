@@ -16,7 +16,7 @@
     "express-session": "^1.17.0",
     "http-errors": "~1.6.3",
     "moment": "^2.24.0",
-    "moment-timezone": "^0.5.27",
+    "moment-timezone": "^0.5.35",
     "morgan": "~1.9.1",
     "pg": "^7.12.1",
     "pg-cursor": "^2.0.1",
